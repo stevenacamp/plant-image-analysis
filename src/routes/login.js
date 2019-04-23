@@ -5,7 +5,7 @@ import { firebaseAuth } from '../config/config';
 const firebaseAuthKey = 'firebaseAuthInProgress';
 const appTokenKey = 'appToken';
 
-export default class login extends Component {
+export default class Login extends Component {
   
   constructor(props) {
     super(props);
