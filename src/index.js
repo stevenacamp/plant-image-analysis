@@ -14,13 +14,15 @@ const history = createBrowserHistory();
 
 const Root = () => {
   return (
-    <Router history={history}>
-      <Switch>
-        <Route path="/login" component={login} />
-        <Route path="/home" component={home} />
-        <Redirect from ="/" to="/login" />
-      </Switch>
-    </Router>
+      <App>
+        <Router history={history}>
+            <Switch>
+                <Route path="/login" component={login} />
+                <Route path="/home" component={home} />
+                <Redirect from ="/" to="/login" />
+            </Switch>
+        </Router>
+      </App>
   )
 }
 

@@ -1,25 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { theme } from "./createTheme";
+import { AppBar, Button, IconButton, MuiThemeProvider, Toolbar, Typography } from '@material-ui/core';
+import { MenuRounded } from "@material-ui/icons";
 
-function App() {
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <MuiThemeProvider theme={theme}>
+        <AppBar>
+            <Toolbar>
+                <IconButton color="inherit" aria-label="menu" style={{ marginLeft: -12, marginRight: 20 }}>
+                    <MenuRounded />
+                </IconButton>
+                <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
+                    Plant Image Analysis
+                </Typography>
+                <Button color="inherit">Login</Button>
+            </Toolbar>
+        </AppBar>
+            {props.children}
+      </MuiThemeProvider>
   );
 }
 
