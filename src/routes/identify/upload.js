@@ -7,6 +7,12 @@ import firebase from "firebase";
 const styles = {
     submitContainer: {
         paddingTop: 16
+    },
+    image: {
+        paddingTop: 16,
+        maxWidth: "100%",
+        objectFt: "none", /* Do not scale the image */
+        objectPosition: "center", /* Center the image within the element */
     }
 };
 
@@ -33,7 +39,6 @@ class Upload extends React.Component {
         return (
             <CardContent>
                 <Grid container justify="center" alignContent="center">
-                    {this.state.url && <img src={this.state.url} alt="plant" />}
                     <Dropzone onDrop={this.onDrop}>
                         {({ getRootProps, getInputProps }) => (
                             <div
@@ -51,8 +56,11 @@ class Upload extends React.Component {
                             </div>
                         )}
                         </Dropzone>
+                        <Grid item xs={12}>
+                            {this.state.url && <img src={this.state.url} alt="plant" className={classes.image} />}
+                        </Grid>
                         <Grid item xs={12} container justify="flex-end" className={classes.submitContainer}>
-                            <Button onClick={this.props.submitImage} variant="contained" color="primary">Next</Button>
+                            <Button onClick={this.props.submitImage} variant="contained" color="primary">Submit</Button>
                         </Grid>
                 </Grid>
             </CardContent>
