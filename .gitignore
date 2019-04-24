@@ -25,4 +25,4 @@ chrome-user-data
 .vscode
 *.swp
 *.swo
-
+src/config/
