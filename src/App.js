@@ -44,7 +44,7 @@ const App = (props) => {
                 <Router history={history}>
                     <Switch>
                         <Route path="/login" component={Login} />
-                          <Route path="/home" component={Home} />
+                        <Route path="/home" component={Home} />
                         <Route path="/identify" component={Identify} />
                         <Redirect from ="/" to="/home" />
                     </Switch>

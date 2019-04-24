@@ -2,22 +2,34 @@ import React from 'react';
 import { Card, Grid, Typography } from '@material-ui/core';
 import Results from './identify/results';
 import Upload from "./identify/upload";
-import { inject, observer } from 'mobx-react';
 
-function Identify(props) {
-    const { identifyStore } = props;
-    return (
-        <div>
-            <Typography variant="h3">Plant Image Analysis</Typography>
-            <Grid container justify="center" style={{ paddingTop: 24 }}>
-                <Grid item xs={4}>
-                    <Card>
-                        {identifyStore.cardState.get() === 'upload' ? <Upload /> : <Results />}
-                    </Card>
+class Identify extends React.Component {
+    state = {
+        card: 'upload'
+    };
+
+    submitImage = () => {
+        this.setState({ card: 'results' });
+    }
+
+    handleBack = () => {
+        this.setState({ card: 'upload' })
+    }
+
+    render () {
+        return (
+            <div>
+                <Typography variant="h3">Plant Image Analysis</Typography>
+                <Grid container justify="center" style={{ paddingTop: 24 }}>
+                    <Grid item xs={4}>
+                        <Card>
+                            {this.state.card === 'upload' ? <Upload submitImage={this.submitImage} /> : <Results handleBack={this.handleBack} />}
+                        </Card>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </div>
-    )
+            </div>
+        );
+    }
 }
 
-export default inject('identifyStore')(observer(Identify));
+export default Identify;

@@ -1,14 +1,13 @@
 import React from 'react';
 import { CardMedia, CardContent, CardHeader, IconButton, Typography } from '@material-ui/core';
 import { ArrowBackRounded } from '@material-ui/icons';
-import { inject, observer } from 'mobx-react';
 
 function Results(props) {
     return (
         <React.Fragment>
             <CardHeader
                 avatar={
-                    <IconButton onClick={props.identifyStore.handleBack}><ArrowBackRounded /></IconButton>
+                    <IconButton onClick={props.handleBack}><ArrowBackRounded /></IconButton>
                 }
             />
             <CardContent>
@@ -18,4 +17,4 @@ function Results(props) {
     );
 }
 
-export default inject('identifyStore')(observer(Results));
+export default Results;
