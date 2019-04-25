@@ -64,16 +64,19 @@ class Upload extends React.Component {
         }
     }
 
+    /** Helper method to handle deleting whatever file is in state right now */
     deleteImage = async () => {
         const { fileNameFull } = this.state;
         await firebase.storage().ref('images').child(fileNameFull).delete();
     }
 
+    /** Method to remove uploaded file being previewed */
     cancelUpload = async () => {
         await this.deleteImage();
         this.setState({ hasImage: false, url: '', fileTitle: '', fileNameFull: '' });
     }
 
+    /** Method to handle submitting the previewed image and adding it to the database */
     handleSubmit = async () => {
         const { fileNameFull } = this.state;
         let { bucket, fullPath } = await firebase.storage().ref('images').child(fileNameFull).getMetadata();
@@ -127,24 +130,6 @@ class Upload extends React.Component {
                     <Grid item xs={12} container justify="flex-end" className={classes.submitContainer}>
                         <Button onClick={this.handleSubmit} variant="contained" color="primary" disabled={!this.state.hasImage}>Submit</Button>
                     </Grid>
-                    {/* {this.state.url && <img src={this.state.url} alt="plant" />}
-                    
-                    <label>
-                    <AddAPhotoRounded style={{ height: 150, width: 150 }} color="secondary" />
-                    <FileUploader
-                        hidden
-                        accept="image/*"
-                        storageRef={firebase.storage().ref('images')}
-                        onUploadStart={this.handleUploadStart}
-                        onUploadError={this.handleUploadError}
-                        onUploadSuccess={this.handleUploadSuccess}
-                        onProgress={this.handleProgress}
-                        />
-                    </label> 
-
-                    <Grid item xs={12} container justify="flex-end" className={classes.submitContainer}>
-                        <Button onClick={this.props.submitImage} variant="contained" color="primary">Next</Button>
-                    </Grid>*/}
                 </Grid>
             </CardContent>
         );
