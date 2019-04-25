@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, CardActions, CardContent, CardHeader, CardMedia, CircularProgress, IconButton, Typography, withStyles, Grid } from '@material-ui/core';
+import { Button, CardContent, CardHeader, CardMedia, CircularProgress, IconButton, Typography, withStyles, Grid } from '@material-ui/core';
 import { AddRounded, ArrowBackRounded } from '@material-ui/icons';
 import { db } from "../../config/config";
 import { Light } from "../../models/light";
