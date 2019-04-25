@@ -3,6 +3,7 @@ import { Button, CardActions, CardContent, CardHeader, CardMedia, CircularProgre
 import { AddRounded, ArrowBackRounded } from '@material-ui/icons';
 import { db } from "../../config/config";
 import { Light } from "../../models/light";
+import NameDialog from '../../components/nameDialog';
 
 const styles = {
     loadingPage: {
@@ -34,7 +35,8 @@ class Results extends React.Component {
             water: undefined,
             maxTemp: undefined,
             minTemp: undefined
-        } 
+        },
+        nameDialogState: false
     }
 
     async componentDidMount() {
@@ -47,6 +49,27 @@ class Results extends React.Component {
                 await this.getPlant();
             });
         }
+    }
+
+    addToPlants = () => {
+        this.setState({ nameDialogState: true });
+    }
+
+    savePlant = async (plantName) => {
+        const plantRef = db.collection('plants').doc(this.state.plant.id);
+        const plant = {
+            name: plantName,
+            plantRef,
+            imageUrl: this.state.image,
+            added: new Date()
+        }
+        await db.collection('myPlants').add(plant);
+        this.setState({ nameDialogState: false });
+        window.location.assign("/plants");
+    }
+
+    cancelSave = () => {
+        this.setState({ nameDialogState: false });
     }
 
     getPlant = async () => {
@@ -72,13 +95,13 @@ class Results extends React.Component {
                         });
                     });
                     if (plantMatch) {
-                        this.setState({ loading: false, image: data.url, plant: { ...plantMatch.data() } })
+                        this.setState({ loading: false, image: data.url, plant: { ...plantMatch.data(), id: plantMatch.id } })
                         // Get ref to plant match
                         let documentRefString = db.collection('plants').doc(plantMatch.id);
                         let plantRef = db.doc(documentRefString.path);
                         // Add plant ref to image search
                         await db.collection('images').doc(this.props.imageId).update({ plantRef });
-                        this.props.addSearch({ ...data, plant: { ...plantMatch.data() } });
+                        this.props.addSearch({ ...data, plant: { ...plantMatch.data(), id: plantMatch.id } });
                     } else {
                         this.setState({ loading: false, notFound: true });
                     }
@@ -111,7 +134,7 @@ class Results extends React.Component {
                         <IconButton onClick={this.props.handleBack}><ArrowBackRounded /></IconButton>
                     }
                     action={
-                        <Button variant="contained" color="secondary">
+                        <Button variant="contained" color="secondary" onClick={this.addToPlants}>
                             Add to My Plants
                             <AddRounded style={{ marginLeft: 8 }} />
                         </Button>
@@ -155,9 +178,7 @@ class Results extends React.Component {
                         </Grid>
                     )}
                 </CardContent>
-                {/* <CardActions style={{ float: "right" }}>
-                    
-                </CardActions> */}
+                <NameDialog open={this.state.nameDialogState} handleSave={this.savePlant} handleCancel={this.cancelSave} />
             </React.Fragment>
         );
     }
