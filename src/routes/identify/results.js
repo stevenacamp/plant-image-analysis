@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardActions, CardMedia, CardContent, CardHeader, IconButton, Typography } from '@material-ui/core';
+import { CardActions, CardContent, CardHeader, IconButton, Typography } from '@material-ui/core';
 import { AddRounded, ArrowBackRounded } from '@material-ui/icons';
 
 function Results(props) {

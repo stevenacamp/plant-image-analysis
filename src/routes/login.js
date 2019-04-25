@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { firebaseAuth, googleProvider } from '../config/config';
+import { firebaseAuth } from '../config/config';
 import RootStore from "../stores/RootStore";
 // import { StyledFirebaseAuth } from 'react-firebaseui/StyledFirebaseAuth';
 
@@ -42,8 +42,8 @@ export default class Login extends Component {
     }
 
     componentWillMount() {
-        const appTokenKey = localStorage.getItem(appTokenKey);
-        if (localStorage.getItem(appTokenKey)) {
+        const appToken = localStorage.getItem(appTokenKey);
+        if (appToken) {
             RootStore.sessionStore.setUser()
             this.props.history.push('/home');
             return;
