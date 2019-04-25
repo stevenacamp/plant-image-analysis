@@ -8,7 +8,7 @@ class Identify extends React.Component {
         card: 'upload'
     };
 
-    submitImage = () => {
+    submitImage = (fileName) => {
         this.setState({ card: 'results' });
     }
 
