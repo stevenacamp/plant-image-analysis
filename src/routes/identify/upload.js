@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, CardContent, Grid, IconButton, Typography, withStyles } from '@material-ui/core';
 import { AddAPhotoRounded, CloseRounded } from '@material-ui/icons';
-import firebase from "firebase";
+import { db, storage } from "../../config/config";
 import Dropzone from 'react-dropzone';
 
 const styles = {
@@ -11,6 +11,7 @@ const styles = {
     image: {
         paddingTop: 16,
         maxWidth: "100%",
+        maxHeight: 250,
         objectFit: "none", /* Do not scale the image */
         objectPosition: "center", /* Center the image within the element */
     }
@@ -22,7 +23,7 @@ class Upload extends React.Component {
         url: '',
         fileTitle: '',
         fileNameFull: '',
-        submitting: false
+        submitting: false,
     }
 
     componentDidMount() {
@@ -52,12 +53,11 @@ class Upload extends React.Component {
             const file = files[0];
             const fileName = (new Date()).toISOString() + '-' + file.name;
             const metadata = { contentType: file.type };
-            await firebase
-                .storage()
+            await storage
                 .ref("images")
                 .child(fileName)
                 .put(file, metadata);
-            const url = await firebase.storage().ref('images').child(fileName).getDownloadURL();
+            const url = await storage.ref('images').child(fileName).getDownloadURL();
             this.setState({ hasImage: true, url, fileTitle: file.name, fileNameFull: fileName });
         } catch(err) {
             console.log(err);
@@ -67,7 +67,7 @@ class Upload extends React.Component {
     /** Helper method to handle deleting whatever file is in state right now */
     deleteImage = async () => {
         const { fileNameFull } = this.state;
-        await firebase.storage().ref('images').child(fileNameFull).delete();
+        await storage.ref('images').child(fileNameFull).delete();
     }
 
     /** Method to remove uploaded file being previewed */
@@ -79,12 +79,12 @@ class Upload extends React.Component {
     /** Method to handle submitting the previewed image and adding it to the database */
     handleSubmit = async () => {
         const { fileNameFull } = this.state;
-        let { bucket, fullPath } = await firebase.storage().ref('images').child(fileNameFull).getMetadata();
-        const url = await firebase.storage().ref('images').child(fileNameFull).getDownloadURL();
-        const newImage = { url, bucket, fullPath };
-        await firebase.firestore().collection('images').add(newImage);
+        let { bucket, fullPath } = await storage.ref('images').child(fileNameFull).getMetadata();
+        const url = await storage.ref('images').child(fileNameFull).getDownloadURL();
+        const newImage = { url, bucket, fullPath, searchDate: new Date() };
+        const newImageFull = await db.collection('images').add(newImage);
         this.setState({ submitting: true }, () => {
-            this.props.submitImage(this.state.fileNameFull);
+            this.props.submitImage(newImageFull.id);
         });
     }
 
@@ -93,23 +93,28 @@ class Upload extends React.Component {
         return (
             <CardContent>
                 <Grid container justify="center" alignContent="center">
-                    <Dropzone onDrop={this.onDrop}>
-                        {({ getRootProps, getInputProps }) => (
-                            <div
-                                {...getRootProps({
-                                    style: {
-                                        width: 'fit-content',
-                                        borderRadius: '50%'
-                                    }
-                                })}
-                            >
-                                <input {...getInputProps()} />
-                                <IconButton style={{ padding: 32, border: "2px solid #ffc400" }}>
-                                    <AddAPhotoRounded style={{ height: 150, width: 150 }} color="secondary" />
-                                </IconButton>
-                            </div>
-                        )}
-                    </Dropzone>
+                    <Grid item xs={12} container justify="flex-end" className={classes.submitContainer}>
+                        <Button onClick={this.handleSubmit} variant="contained" color="primary" disabled={!this.state.hasImage}>Submit</Button>
+                    </Grid>
+                    {!this.state.hasImage &&
+                        <Dropzone onDrop={this.onDrop}>
+                            {({ getRootProps, getInputProps }) => (
+                                <div
+                                    {...getRootProps({
+                                        style: {
+                                            width: 'fit-content',
+                                            borderRadius: '50%'
+                                        }
+                                    })}
+                                >
+                                    <input {...getInputProps()} />
+                                    <IconButton style={{ padding: 32, border: "2px solid #ffc400" }}>
+                                        <AddAPhotoRounded style={{ height: 150, width: 150 }} color="secondary" />
+                                    </IconButton>
+                                </div>
+                            )}
+                        </Dropzone>
+                    }
                     {this.state.hasImage &&
                         <Grid item xs={12} container justify="space-between" alignItems="center">
                             <Grid item>
@@ -127,9 +132,6 @@ class Upload extends React.Component {
                             <img src={this.state.url} alt="plant" className={classes.image} />
                         </Grid>
                     }
-                    <Grid item xs={12} container justify="flex-end" className={classes.submitContainer}>
-                        <Button onClick={this.handleSubmit} variant="contained" color="primary" disabled={!this.state.hasImage}>Submit</Button>
-                    </Grid>
                 </Grid>
             </CardContent>
         );
