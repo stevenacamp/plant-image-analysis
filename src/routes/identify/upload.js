@@ -7,6 +7,12 @@ import firebase from "firebase";
 const styles = {
     submitContainer: {
         paddingTop: 16
+    },
+    image: {
+        paddingTop: 16,
+        maxWidth: "100%",
+        objectFt: "none", /* Do not scale the image */
+        objectPosition: "center", /* Center the image within the element */
     }
 };
 

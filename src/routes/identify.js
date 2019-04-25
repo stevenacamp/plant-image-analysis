@@ -19,9 +19,11 @@ class Identify extends React.Component {
     render () {
         return (
             <div>
-                <Typography variant="h3">Plant Image Analysis</Typography>
                 <Grid container justify="center" style={{ paddingTop: 24 }}>
-                    <Grid item xs={4}>
+                    <Grid item xs={12}>
+                        <Typography variant="h3" style={{ textAlign: "center", paddingBottom: 32 }}>Plant Identification</Typography>
+                    </Grid>
+                    <Grid item xs={6}>
                         <Card>
                             {this.state.card === 'upload' ? <Upload submitImage={this.submitImage} /> : <Results handleBack={this.handleBack} />}
                         </Card>

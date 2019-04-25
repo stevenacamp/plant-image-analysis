@@ -1,6 +1,6 @@
 import React from 'react';
-import { CardMedia, CardContent, CardHeader, IconButton, Typography } from '@material-ui/core';
-import { ArrowBackRounded } from '@material-ui/icons';
+import { CardActions, CardMedia, CardContent, CardHeader, IconButton, Typography } from '@material-ui/core';
+import { AddRounded, ArrowBackRounded } from '@material-ui/icons';
 
 function Results(props) {
     return (
@@ -13,6 +13,11 @@ function Results(props) {
             <CardContent>
                 <Typography variant="h6">Looks like a plant!</Typography>
             </CardContent>
+            <CardActions>
+                <IconButton>
+                    <AddRounded style={{ fontSize: "50px" }} color="secondary" />
+                </IconButton>
+            </CardActions>
         </React.Fragment>
     );
 }
