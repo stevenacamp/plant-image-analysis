@@ -38,6 +38,18 @@ class Results extends React.Component {
     }
 
     async componentDidMount() {
+        await this.getPlant();
+    }
+
+    async componentDidUpdate(prevProps) {
+        if (prevProps.imageId !== this.props.imageId) {
+            this.setState({ loading: true }, async () => {
+                await this.getPlant();
+            });
+        }
+    }
+
+    getPlant = async () => {
         const imageRef = await db.collection('images').doc(this.props.imageId);
         imageRef.onSnapshot(async doc => {
             if (this.state.loading) {

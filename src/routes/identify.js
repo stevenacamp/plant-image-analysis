@@ -46,7 +46,7 @@ class Identify extends React.Component {
         return (
             <div>
                 <Grid container justify="space-between">
-                    <Grid item xs={5} style={{ paddingRight: 24 }}>
+                    <Grid item xs={4}>
                         <Grid container justify="center" alignItems="flex-start">
                             <Grid item xs={12}>
                                 <Typography variant="h4" style={{ paddingBottom: 32 }}>Plant Identification</Typography>
@@ -58,7 +58,7 @@ class Identify extends React.Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid item xs={7} style={{ paddingLeft: 24 }}>
+                    <Grid item xs={7}>
                         <Grid container justify="center">
                             <Grid item xs={12}>
                                 <Typography variant="h4" style={{ paddingBottom: 32 }}>Previous Searches</Typography>
