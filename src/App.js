@@ -14,6 +14,7 @@ import Login from './routes/login';
 import Home from './routes/home';
 import Identify from "./routes/identify";
 import Plants from "./routes/plants";
+import About from "./routes/about";
 
 const history = createBrowserHistory();
 
@@ -35,6 +36,7 @@ const App = (props) => {
                             <Route path="/home" component={Home} />
                             <Route path="/identify" component={Identify} />
                             <Route path="/plants" component={Plants} />
+                            <Route path="/about" component={About} />
                             <Redirect from ="/" to="/home" />
                         </Switch>
                     </NavBar>

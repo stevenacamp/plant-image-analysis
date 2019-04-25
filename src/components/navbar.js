@@ -1,13 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
 import { AppBar, Button, Divider, Drawer, IconButton, List, ListItem, ListItemIcon, ListItemText, Toolbar, Typography, withStyles } from '@material-ui/core';
-import { ChevronLeftRounded, HomeRounded, ImageSearchRounded, MenuRounded, NaturePeopleRounded } from '@material-ui/icons';
+import { ChevronLeftRounded, HelpOutlineRounded, HomeRounded, ImageSearchRounded, MenuRounded, NaturePeopleRounded } from '@material-ui/icons';
 import { NavLink } from 'react-router-dom';
 
 export const LoginLink = props => <NavLink {...props} to="/login" />;
 export const HomeLink = props => <NavLink {...props} to="/home" />;
 export const IdentifyLink = props => <NavLink {...props} to="/identify" />;
 export const MyPlantsLink = props => <NavLink {...props} to="/plants" />;
+export const AboutLink = props => <NavLink {...props} to="/about" />;
 
 const drawerWidth = 240;
 
@@ -113,7 +114,7 @@ class NavBar extends React.Component {
                             <MenuRounded />
                         </IconButton>
                         <Typography variant="h6" color="inherit" noWrap style={{ flexGrow: 1 }}>
-                            Plant AI
+                            Plant Pulse
                         </Typography>
                         <Button color="inherit">Login</Button>
                     </Toolbar>
@@ -165,6 +166,16 @@ class NavBar extends React.Component {
                             </ListItemIcon>
                             <ListItemText
                                 primary="My Plants"
+                                style={{ color: "inherit", fontWeight: "inherit" }}
+                                primaryTypographyProps={{ style: { color: "inherit", fontWeight: "inherit" } }}
+                            />
+                        </ListItem>
+                        <ListItem button component={AboutLink} activeClassName={classes.activeLink}>
+                            <ListItemIcon style={{ color: "inherit" }}>
+                                <HelpOutlineRounded style={{ height: 40, width: 40 }} />
+                            </ListItemIcon>
+                            <ListItemText
+                                primary="About"
                                 style={{ color: "inherit", fontWeight: "inherit" }}
                                 primaryTypographyProps={{ style: { color: "inherit", fontWeight: "inherit" } }}
                             />
